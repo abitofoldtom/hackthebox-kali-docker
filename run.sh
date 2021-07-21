@@ -27,9 +27,11 @@ if [[ $EXISTING_IMAGE ]]; then
   docker rmi --force $EXISTING_IMAGE >/dev/null 2>/dev/null
 fi
 
-docker build --build-arg CONFIG_FILE=$CONFIG_FILE -t $IMAGE_NAME . >/dev/null 2>/dev/null
-
 echo "using openvpn config $CONFIG_FILE..."
+
+echo "buildling $IMAGE_NAME image..."
+
+docker build --build-arg CONFIG_FILE=$CONFIG_FILE -t $IMAGE_NAME . >/dev/null 2>/dev/null
 
 echo "running new $IMAGE_NAME container..."
 
