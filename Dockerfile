@@ -1,7 +1,7 @@
 FROM kalilinux/kali-rolling
 
 RUN apt-get update -y && \
-    apt-get install openvpn -y
+    apt-get install openvpn iputils-ping -y
 
 ARG CONFIG_FILE
 
