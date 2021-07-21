@@ -54,5 +54,7 @@ docker stop $NEW_CONTAINER >/dev/null 2>/dev/null
 RUNNING_CONTAINER=$(docker ps | grep kustom_kali | awk '{print $1}')
 
 if [[ $RUNNING_CONTAINER ]]; then
-  echo "Unable to stop $IMAGE_NAME container $RUNNING_CONTAINER..."
-fi
+  echo "unable to stop $IMAGE_NAME container $RUNNING_CONTAINER..."
+else
+  echo "stopped $IMAGE_NAME container $RUNNING_CONTAINER"
+

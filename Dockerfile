@@ -1,7 +1,7 @@
 FROM kalilinux/kali-rolling
 
 RUN apt-get update -y && \
-    apt-get install openvpn iputils-ping nmap -y
+    apt-get install openvpn iputils-ping nmap procps -y
 
 ARG CONFIG_FILE
 
