@@ -17,25 +17,25 @@ fi
 
 if [[ $RUNNING_CONTAINER ]]; then
   echo "stopping $IMAGE_NAME container $RUNNING_CONTAINER..."
-  docker stop $RUNNING_CONTAINER >/dev/null 2>/dev/null
+  docker stop $RUNNING_CONTAINER
 fi
 
 EXISTING_IMAGE=$(docker images | grep $IMAGE_NAME | tr -s ' ' | cut -d ' ' -f 3)
 
 if [[ $EXISTING_IMAGE ]]; then
   echo "removing $IMAGE_NAME image $EXISTING_IMAGE..."
-  docker rmi --force $EXISTING_IMAGE >/dev/null 2>/dev/null
+  docker image rm --no-prune --force $EXISTING_IMAGE
 fi
 
 echo "using openvpn config $CONFIG_FILE..."
 
 echo "buildling $IMAGE_NAME image..."
 
-docker build --build-arg CONFIG_FILE=$CONFIG_FILE -t $IMAGE_NAME . >/dev/null 2>/dev/null
+docker build --build-arg CONFIG_FILE=$CONFIG_FILE -t $IMAGE_NAME .
 
 echo "running new $IMAGE_NAME container..."
 
-NEW_CONTAINER=$(docker run -d --rm \
+NEW_CONTAINER=$(docker run -d \
   --cap-add=NET_ADMIN \
   --device /dev/net/tun \
   --sysctl net.ipv6.conf.all.disable_ipv6=0 \
@@ -49,7 +49,7 @@ docker exec -it $NEW_CONTAINER bash
 
 echo "stopping container $NEW_CONTAINER..."
 
-docker stop $NEW_CONTAINER >/dev/null 2>/dev/null
+docker stop $NEW_CONTAINER
 
 RUNNING_CONTAINER=$(docker ps | grep kustom_kali | awk '{print $1}')
 
@@ -57,4 +57,4 @@ if [[ $RUNNING_CONTAINER ]]; then
   echo "unable to stop $IMAGE_NAME container $RUNNING_CONTAINER..."
 else
   echo "stopped $IMAGE_NAME container $RUNNING_CONTAINER"
-
+fi
