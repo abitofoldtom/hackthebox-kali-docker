@@ -5,6 +5,11 @@ IMAGE_NAME=kustom_kali
 CONFIG_FILE=$1
 RUNNING_CONTAINER=$(docker ps | grep kustom_kali | awk '{print $1}')
 
+if [[ ! "$CONFIG_FILE" ]]; then
+  echo "first argument must be .opvn config file"
+  exit 1
+fi
+
 if [[ ! -f "$CONFIG_FILE" ]]; then
   echo "$CONFIG_FILE does not exist"
   exit 1
